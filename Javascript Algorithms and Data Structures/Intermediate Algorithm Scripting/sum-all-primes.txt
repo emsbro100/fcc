@@ -1,0 +1,26 @@
+function sumPrimes(num) {
+  function primes(num) {
+    let nums = []
+    let counter = 0;
+    while (counter <= num) { //iterates through numbers to find primes up to argument
+      let tester = 2; 
+      while (tester <= counter) { //tests divisibility for each number from 2 up to current number
+        if (tester == counter) {
+          nums.push(counter);
+          console.log(nums)
+        }
+        else if (counter % tester == 0) {
+          tester += 1; 
+          break;
+        }
+      tester += 1;
+      }
+    counter += 1;
+    }
+    return nums;
+  }
+  let sum = primes(num).reduce((a, b) => a + b);
+  return sum;
+}
+
+sumPrimes(10);
