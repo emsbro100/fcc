@@ -1,0 +1,19 @@
+function steamrollArray(arr) {
+  let newArr = []
+  function checkNested(item) {
+    if (Array.isArray(item)) {
+      for (let i = 0; i < item.length; i++) {
+        checkNested(item[i]);
+      }
+    }
+    else {
+      newArr.push(item);
+    }
+  }
+  for (let v = 0; v < arr.length; v++) {
+    checkNested(arr[v]);
+  }
+  return newArr;
+}
+
+steamrollArray([[1, [2], [3, [[4]]]]]);
