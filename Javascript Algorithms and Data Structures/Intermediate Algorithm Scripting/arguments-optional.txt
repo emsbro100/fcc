@@ -1,0 +1,27 @@
+function addTogether(x, ...z) {
+  if (Number.isFinite(x)) {
+    if (z.length > 0) {
+      if (Number.isFinite(z[0])) {
+        console.log('cum');
+        return x + z[0];
+      }
+      else {
+        return;
+      }
+    }
+    else {
+      return function(y) {
+        if (Number.isFinite(y)) {
+          return x + y;
+        }
+        else {
+          return;
+        }
+      }
+    }
+  }
+
+  return;
+}
+
+console.log(addTogether(2)([3]));
