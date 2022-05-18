@@ -1,0 +1,21 @@
+function palindrome(str) {
+  let newStr = str.replace(/\W*[_]*/g, '').toLowerCase()
+  let startList = []
+  let endList = []
+  let index = (newStr.length - 1) / 2;
+  if (newStr.length % 2 == 0) {
+    index = newStr.length / 2;
+  }
+  for (let i = index; i < newStr.length; i++) {
+    endList.unshift(newStr[i]);
+    startList.push(newStr[i - index]);
+  }
+  for (let i = 0; i < startList.length; i++) {
+    if (startList[i] != endList[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+palindrome("eye");
