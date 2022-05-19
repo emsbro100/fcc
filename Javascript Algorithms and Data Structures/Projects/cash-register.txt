@@ -1,0 +1,55 @@
+function checkCashRegister(price, cash, cid) {
+  let cidNew = cid;
+  let moneyDict = {
+    "PENNY" : 0.01,
+    "NICKEL" : 0.05,
+    "DIME" : 0.10,
+    "QUARTER" : 0.25,
+    "ONE" : 1.00,
+    "FIVE" : 5.00,
+    "TEN" : 10.00,
+    "TWENTY" : 20.00,
+    "ONE HUNDRED" : 100.00
+  }
+  let change = [];
+  let changeDue = cash - price;
+  let cidTotal = 0.0;
+  for (let i = 0; i < cidNew.length; i++) {
+    cidTotal += cidNew[i][1];
+  }
+  cidTotal = Math.round(100*cidTotal)/100;
+  if (changeDue > cidTotal) {
+    return ({status: "INSUFFICIENT_FUNDS", change: []});
+  }
+  else if (changeDue == cidTotal) {
+    return ({status: "CLOSED", change: cidNew});
+  }
+  else {
+    for (let i = cid.length - 1; i >= 0; i--) {
+      while (changeDue - moneyDict[cidNew[i][0]] >= 0 && cidNew[i][1] - moneyDict[cidNew[i][0]] >= 0) {
+        changeDue -= moneyDict[cid[i][0]];
+        cidNew[i][1] -= moneyDict[cid[i][0]];
+        if (change.length == 0) { //adds an empty change value for the current increment size to change if change is empty entirely
+          change.push([cid[i][0], 0]);
+        }
+        for (let v = 0; v < change.length; v++) {
+          if (change[v].indexOf(cid[i][0]) > -1) { //adds to the current increment in change
+            change[v][1] += moneyDict[cid[i][0]];
+            break;
+          }
+          else if (v == change.length - 1) { //adds the current increment to change if it does not exist
+            change.push([cid[i][0], moneyDict[cid[i][0]]]);
+            break;
+          }
+        }
+        changeDue = Math.round(100*changeDue)/100;
+      }
+    }
+  }
+  if (changeDue > 0) { //returns if exact change cannot be provided
+    return ({status: "INSUFFICIENT_FUNDS", change: []});
+  }
+  return {status: "OPEN", change: change};
+}
+
+checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
